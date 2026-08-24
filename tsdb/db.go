@@ -268,8 +268,7 @@ type Options struct {
 	// chunk_encoding.floats is absent from the configuration file.
 	// Defaults to EncXOR. Set to EncXOR2 to default new float chunks to XOR2.
 	// Always use DefaultOptions() rather than a bare Options literal; the zero value
-	// of this field is EncNone, not EncXOR. This field is independent of EnableSTStorage:
-	// st-storage does not automatically select EncXOR2.
+	// of this field is EncNone, not EncXOR.
 	// Selecting EncXOR2 here requires XOR2EncodingAllowed to be true.
 	FloatChunkEncoding chunkenc.Encoding
 
@@ -1366,7 +1365,7 @@ func (db *DB) ApplyConfig(conf *config.Config) error {
 		// Validate encoding config before updating the head encoding so that
 		// an invalid encoding in the config does not change the active encoding.
 		if conf.StorageConfig.TSDBConfig.ChunkEncoding.Floats == config.FloatChunkEncodingXOR2 && !db.opts.XOR2EncodingAllowed {
-			return errors.New("'storage.tsdb.chunk_encoding.floats: xor2' requires the xor2-encoding feature flag to be enabled at startup")
+			return errors.New("'storage.tsdb.chunk_encoding.floats: xor2' requires the xor2-encoding or st-storage feature flag to be enabled at startup")
 		}
 		// db.opts.EnableSTStorage is set once at startup and never mutated.
 		if conf.StorageConfig.TSDBConfig.ChunkEncoding.Floats == config.FloatChunkEncodingXOR && db.opts.EnableSTStorage {

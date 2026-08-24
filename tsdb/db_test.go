@@ -1813,7 +1813,7 @@ func TestDBApplyConfigChunkEncoding(t *testing.T) {
 		opts.FloatChunkEncoding = chunkenc.EncXOR
 		db := newTestDB(t, withOpts(opts))
 		require.ErrorContains(t, db.ApplyConfig(xorCfg(config.FloatChunkEncodingXOR2)),
-			"'storage.tsdb.chunk_encoding.floats: xor2' requires the xor2-encoding feature flag")
+			"'storage.tsdb.chunk_encoding.floats: xor2' requires the xor2-encoding or st-storage feature flag")
 	})
 
 	t.Run("xor2_allowed_with_xor_default_accepts_config_xor2", func(t *testing.T) {

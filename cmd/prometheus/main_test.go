@@ -422,14 +422,19 @@ storage:
 			exitCode: 0,
 		},
 		{
-			name: "xor with st-storage and xor2-encoding features",
+			name: "xor with st-storage feature",
 			config: `
 storage:
   tsdb:
     chunk_encoding:
       floats: xor`,
-			features: "st-storage,xor2-encoding",
+			features: "st-storage",
 			exitCode: 1,
+		},
+		{
+			name:     "st-storage implies ST-capable encodings",
+			features: "st-storage",
+			exitCode: 0,
 		},
 		{
 			name: "xor without st-storage feature",

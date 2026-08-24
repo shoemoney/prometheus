@@ -4153,15 +4153,15 @@ with this feature.
 [ stale_series_compaction_threshold: <float> | default = 0 ]
 
 # Configures the float chunk encoding to use for new chunks.
-# Valid values are 'xor' and 'xor2'. When absent, the encoding follows the
-# --enable-feature=xor2-encoding flag: 'xor2' if the flag is set, 'xor' otherwise.
+# Valid values are 'xor' and 'xor2'. When absent, the encoding is 'xor2' if
+# --enable-feature=xor2-encoding or --enable-feature=st-storage is set, and 'xor' otherwise.
 # Setting 'xor' forces standard XOR encoding even when --enable-feature=xor2-encoding is set.
-# Setting 'xor2' is only valid when --enable-feature=xor2-encoding is set;
-# Prometheus will refuse to reload if 'xor2' is set without the feature flag.
+# Setting 'xor2' is only valid when --enable-feature=xor2-encoding or
+# --enable-feature=st-storage is set; Prometheus refuses other configurations.
 # Setting 'xor' is incompatible with --enable-feature=st-storage (XOR chunks do not store
 # start timestamps); Prometheus will refuse to reload in that case too.
-# Omitting 'floats' (or the entire 'chunk_encoding' field) is equivalent; the encoding
-# follows the --enable-feature=xor2-encoding flag.
+# Omitting 'floats' or the entire 'chunk_encoding' field selects 'xor2' when
+# --enable-feature=xor2-encoding or --enable-feature=st-storage is set, and 'xor' otherwise.
 # This field is runtime-reloadable.
 # When --enable-feature=st-storage is disabled, XOR and XOR2 are compatible
 # encodings and in-progress chunks are not cut on an encoding change; the new
